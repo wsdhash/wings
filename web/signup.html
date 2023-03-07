@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Ativa</title>
+    <title>Signup</title>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
         import firebaseConfig from "./js/configs.js"
 
         const app = initializeApp(firebaseConfig);
@@ -17,7 +17,7 @@
             var email = document.getElementById("email").value
             var password = document.getElementById("password").value
 
-            signInWithEmailAndPassword(auth, email, password).then((user) => {
+            createUserWithEmailAndPassword(auth, email, password).then((user) => {
                 console.log(user);
             });
         })
@@ -25,11 +25,11 @@
 </head>
 <body>
     <div style="display: flex; justify-content: center; align-items: center; height: 100vh; gap: 10px;flex-direction: column;">
-        <h1> Login </h1>
+        <h1> Signup  </h1>
         <input placeholder="E-mail" id="email"/>
         <input placeholder="Password" type="password" id="password"/>
         <button id="login" style="width: 180px; height: 35px"> 
-            Login
+            Signup
         </button>
     </div>
 </body>
