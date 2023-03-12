@@ -6,9 +6,14 @@
     [compojure.core :refer [defroutes GET POST]]
     [compojure.route :refer [not-found ]]
     [clojure.data.json :as json]
-    [ring.middleware.json :as mj]))
+    [ring.middleware.json :as mj]
+    [wallet.configs :refer [api-configs db-configs]]
+    [clojure.java.jdbc :as jdbc]
+    [wallet.database :refer [
+      create-tables-if-not-exists 
+      create-user-and-balance-if-not-exists
+      get-balance]]))
 
-; Log API events.
 (defn wrap-http-log
   [handler]
   (fn [request]
@@ -19,44 +24,42 @@
   )
 )
 
-; Check if the user has authorization
-; to access this feature.
 (defn wrap-verify-authorization 
   [handler]
   (fn [request] 
-    (let [headers (:headers request) user (get headers "x-user-id")] (println user))
-    (handler request)
+    (let 
+      [headers (:headers request) user_id (get headers "user-id")] 
+      (if (not (nil? user_id)) 
+        (create-user-and-balance-if-not-exists user_id)
+        (println user_id)
+      )
+      (handler request)
+    )
   )
 )
 
-(defn balance-account
+(defn route-balance-account
   [request] 
-  {
-    :status 200
-    :headers {"Content-Type" "application/json"}
-    :body (json/write-str {:balance 1000})
-  }
-)
-
-(defn create-account
-  [request]
-  (let [data (get-in request [:body])]  {
-    :status 200
-    :headers {"Content-Type" "application/json"}
-    :body (json/write-str {:body data })
-  })
+  (
+    let [headers (:headers request) user_id (get headers "user-id")]
+    {
+      :status 200
+      :headers {"Content-Type" "application/json"}
+      :body (json/write-str {:balance (first (get-balance user_id))})
+    }
+  )
 )
 
 (defroutes routes
-  (GET "/balance" [] balance-account)
-  (POST "/account" [] 
-    (mj/wrap-json-body create-account))
+  (GET "/balance" [] route-balance-account)
   (not-found "<h1>Not found</h1>"))
 
 (def api 
-  (wrap-verify-authorization (wrap-http-log routes)))
+  (wrap-http-log (wrap-verify-authorization routes)))
 
 (defn -main []
+  (create-tables-if-not-exists)
   (u/start-publisher! {:type :console})
-  (u/log ::http ::start "Running on http://127.0.0.1:3521")
-  (run-server api {:port 3521}))
+  (u/log ::http ::start api-configs)
+  (println db-configs)
+  (run-server api api-configs))

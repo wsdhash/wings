@@ -10,5 +10,9 @@
     [compojure "1.7.0"]
     [org.clojure/data.json "2.4.0"]
     [ring/ring-defaults "0.3.2"]
-    [ring/ring-json "0.5.0"]]
+    [ring/ring-json "0.5.0"]
+    [environ "1.2.0"]
+    [org.clojure/java.jdbc "0.7.11"]
+    [org.postgresql/postgresql "42.3.1"]]
+  :plugins [[lein-environ "1.2.0"]]
   :main wallet.core)
