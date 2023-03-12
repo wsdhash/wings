@@ -1,8 +1,6 @@
 (ns wallet.configs
     (:require [environ.core :refer [env]]))
 
-(println (env :dbhost))
-
 (def api-configs {
   :port (-> env :port (or "8080") (Integer/parseInt))})
 
