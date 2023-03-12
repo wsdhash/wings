@@ -32,7 +32,8 @@ o API Gateway pega o token e usa o Firebase para validar o token, após isso o A
 ```bash
 curl --request GET \
   --url http://127.0.0.1:8080/wallet/balance \
-  --header 'X-User-Id: FdLFFIiGIGISxckVKeXPPOdWSfOz' \
+  --header ' POC: Sistema de autorização e autenticação baseado em eventos.
+User-Id: FdLFFIiGIGISxckVKeXPPOdWSfOz' \
 ```
 
 ## Step: 3
