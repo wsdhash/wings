@@ -1,14 +1,15 @@
 (ns wallet.configs
     (:require [environ.core :refer [env]]))
 
+(println (env :dbhost))
+
 (def api-configs {
-  :host (-> env :host)
-  :port (-> env :port Integer/parseInt)})
+  :port (-> env :port (or "8080") (Integer/parseInt))})
 
 (def db-configs {
   :dbtype   "postgresql"
-  :host     (-> env :db-host)
-  :port     (-> env :db-port Integer/parseInt)
-  :dbname   (-> env :db-name)
-  :user     (-> env :db-user)
-  :password (-> env :db-pass)})
+  :host     (-> env :dbhost (or "127.0.0.1"))
+  :port     (-> env :dbport (or "5432") (Integer/parseInt))
+  :dbname   (-> env :dbname)
+  :user     (-> env :dbuser)
+  :password (-> env :dbpass)})

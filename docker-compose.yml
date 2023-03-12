@@ -12,6 +12,22 @@ services:
     volumes:
       - ${PWD}/data/postgres:/var/lib/postgresql/data
   
+  wallet:
+    build: 
+      context: wallet/
+      dockerfile: Dockerfile
+    environment:
+      port:   8080
+      dbhost: postgres
+      dbport: 5432
+      dbuser: ${POSTGRES_USER}
+      dbpass: ${POSTGRES_PASSWORD}
+      dbname: ${POSTGRES_DB}
+    volumes:
+      - ${PWD}/wallet:/app
+    ports:
+      - 8086:8080
+  
   web:
     build: 
       context: web/

@@ -1,0 +1,14 @@
+target/
+resources/public/
+.cpcache/
+.cljs_rhino_repl/
+.shadow-cljs/
+*.log
+*.swp
+*.bak
+.env
+.clj-kondo
+.lsp
+.lein-env
+profiles.clj
+profiles.example.clj

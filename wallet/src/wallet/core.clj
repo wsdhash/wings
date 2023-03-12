@@ -31,7 +31,6 @@
       [headers (:headers request) user_id (get headers "user-id")] 
       (if (not (nil? user_id)) 
         (create-user-and-balance-if-not-exists user_id)
-        (println user_id)
       )
       (handler request)
     )
@@ -58,8 +57,7 @@
   (wrap-http-log (wrap-verify-authorization routes)))
 
 (defn -main []
-  (create-tables-if-not-exists)
   (u/start-publisher! {:type :console})
   (u/log ::http ::start api-configs)
-  (println db-configs)
+  (create-tables-if-not-exists)
   (run-server api api-configs))
