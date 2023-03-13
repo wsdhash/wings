@@ -15,7 +15,6 @@
                 "Content-Type":  "application/json"
             }
         }).then(async (r) => {
-            console.log(3232)
             const data = await r.json()
             const status_code = await r.status
             if (status_code != 200) {
