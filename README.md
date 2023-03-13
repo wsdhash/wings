@@ -27,7 +27,7 @@ curl --request GET \
   --header 'Authorization: Bearer <Token>' \
 ```
 
-o API Gateway pega o token e usa o Firebase para validar o token, após isso o API Gateway extrai o user_id do token e modifica á solicitação para o micro-serviços adicionando um novo cabeçalho com á chave `X-User-Id`, e também remove o `Authorization` do cabeçalho da solicitação, após isso ele envia uma solicitação para o micro-serviço de destino com estes novos dados.
+o API Gateway pega o token e usa o Firebase para validar o token, após isso o API Gateway extrai o user_id do token e modifica á solicitação para o micro-serviços adicionando um novo cabeçalho com á chave `User-Id`, e também remove o `Authorization` do cabeçalho da solicitação, após isso ele envia uma solicitação para o micro-serviço de destino com estes novos dados.
 
 ```bash
 curl --request GET \
