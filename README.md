@@ -5,7 +5,7 @@
 
 O objetivo deste projeto é criar uma prova de conceito (POC) de um fluxo de autenticação e autorização desacoplado baseado em uma arquitetura orientada a eventos. Para isso, serão utilizadas tecnologias como Firebase, Gravitee API Gateway, Clojure, RedPanda e sitema de Profile.
 
-O sistema resultante permitirá definir e gerenciar diferentes tipos de acesso para usuários com base em seus perfis, oferecendo maior segurança e controle de acesso aos dados. Além disso, a implementação será feita em etapas, visando a integração do Firebase para autenticação e armazenamento de dados básicos do usuário, a criação de um sistema de perfil para gerenciar as permissões dos usuários, um micro-serviço de exemplo simples (CRUD) e a configuração de um API Gateway para controlar o acesso aos recursos da API.
+O sistema resultante permitirá definir e gerenciar diferentes tipos de acesso para usuários com base em seus perfis, oferecendo maior segurança e controle de acesso aos dados. Além disso, a implementação será feita em etapas, visando a integração do Firebase para autenticação e armazenamento de dados básicos do usuário, a criação de um sistema de perfil para gerenciar as permissões dos usuários, um micro-serviço de `wallet` de exemplo simples e a configuração de um API Gateway para controlar o acesso aos recursos da API.
 
 Ao final do projeto, espera-se ter desenvolvido um sistema de autenticação e autorização escalável e altamente seguro, com fluxos de trabalho otimizados para facilitar o gerenciamento e a manutenção contínua do sistema.
 
