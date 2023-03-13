@@ -13,24 +13,29 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app)
         
-        document.getElementById("login").addEventListener("click", () => {
+        document.getElementById("signup").addEventListener("click", () => {
             var email = document.getElementById("email").value
             var password = document.getElementById("password").value
 
-            createUserWithEmailAndPassword(auth, email, password).then((user) => {
-                console.log(user);
+            createUserWithEmailAndPassword(auth, email, password).then((token) => {
+                localStorage.setItem("authorization", token.user.accessToken);
+                window.location.replace(window.location.origin + "/balance.html");
+            }).catch((error) => {
+                alert("There was a problem with creating the account.")
             });
         })
         </script>
 </head>
 <body>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; gap: 10px;flex-direction: column;">
-        <h1> Signup  </h1>
-        <input placeholder="E-mail" id="email"/>
-        <input placeholder="Password" type="password" id="password"/>
-        <button id="login" style="width: 180px; height: 35px"> 
-            Signup
-        </button>
+    <div style="display: flex; justify-content: center; align-items: center;  height: 100vh; flex-direction: column;">
+        <div style="display: flex; flex-direction: column; gap: 10px; ">
+            <h1> Signup  </h1>
+            <input placeholder="E-mail" id="email"/>
+            <input placeholder="Password" type="password" id="password"/>
+            <button id="signup" style="height: 35px; width: 100%;"> 
+                Signup
+            </button>
+        </div>
     </div>
 </body>
 </html>

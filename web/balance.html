@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        const authorization = localStorage.getItem("authorization");
+        const url = "http://127.0.0.1:8082";
+        
+        fetch(url + "/wallet/balance", {
+            "headers": {
+                "Authorization": `Bearer ${authorization}`,
+                "Content-Type":  "application/json"
+            }
+        }).then(async (r) => {
+            console.log(3232)
+            const data = await r.json()
+            const status_code = await r.status
+            if (status_code != 200) {
+                document.getElementById("balance").innerText = "You are not authorized to access this resource."
+            } else {
+                document.getElementById("balance").innerText = `Your balance is: ${data.balance}`
+            }
+        }).catch((error) => {
+            document.getElementById("balance").innerText = "You are not authorized to access this resource."
+        }) 
+    </script>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center;  height: 100vh; flex-direction: column;">
+        <h1 id="balance"></h1>
+    </div>
+</body>
+</html>

@@ -13,7 +13,8 @@
     [ring/ring-json "0.5.0"]
     [environ "1.2.0"]
     [org.clojure/java.jdbc "0.7.11"]
-    [org.postgresql/postgresql "42.3.1"]]
+    [org.postgresql/postgresql "42.3.1"]
+    [ring-cors "0.1.13"]]
   :plugins [[lein-environ "1.2.0"]]
   :main wallet.core
   :profiles {:uberjar {:aot :all :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})

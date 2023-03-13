@@ -35,5 +35,78 @@ services:
     ports:
       - 8080:8000
     volumes:
+      - ${PWD}/web:/app
       - ${PWD}/data/firebase/configs.js:/app/js/configs.js
   
+  mongodb:
+    image: mongo:3.6
+    container_name: gio_apim_mongodb
+    restart: always
+    volumes:
+      - ${PWD}/data/mongo:/data/db
+  
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
+    restart: always
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=0.0.0.0
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=false
+      - cluster.name=elasticsearch
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile: 65536
+
+  gateway:
+    image: graviteeio/apim-gateway:3
+    restart: always
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongodb
+      - elasticsearch
+    environment:
+      - gravitee_management_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
+      - gravitee_ratelimit_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
+      - gravitee_reporters_elasticsearch_endpoints_0=http://elasticsearch:9200
+
+  management_api:
+    image: graviteeio/apim-management-api:3
+    restart: always
+    ports:
+      - "8083:8083"
+    links:
+      - mongodb
+      - elasticsearch
+    depends_on:
+      - mongodb
+      - elasticsearch
+    environment:
+      - gravitee_management_mongodb_uri=mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000
+      - gravitee_analytics_elasticsearch_endpoints_0=http://elasticsearch:9200
+
+  management_ui:
+    image: graviteeio/apim-management-ui:3
+    restart: always
+    ports:
+      - "8084:8080"
+    depends_on:
+      - management_api
+    environment:
+      - MGMT_API_URL=http://localhost:8083/management/organizations/DEFAULT/environments/DEFAULT/
+
+  portal_ui:
+    image: graviteeio/apim-portal-ui:3
+    restart: always
+    ports:
+      - "8085:8080"
+    depends_on:
+      - management_api
+    environment:
+      - PORTAL_API_URL=http://localhost:8083/portal/environments/DEFAULT

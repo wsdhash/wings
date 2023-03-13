@@ -17,20 +17,26 @@
             var email = document.getElementById("email").value
             var password = document.getElementById("password").value
 
-            signInWithEmailAndPassword(auth, email, password).then((user) => {
-                console.log(user);
+            signInWithEmailAndPassword(auth, email, password).then((token) => {
+                localStorage.setItem("authorization", token.user.accessToken);
+                window.location.replace(window.location.origin + "/balance.html");
+            }).catch((error) => {
+                alert("Invalid Email / Password")
             });
         })
-        </script>
+    </script>
 </head>
 <body>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; gap: 10px;flex-direction: column;">
-        <h1> Login </h1>
-        <input placeholder="E-mail" id="email"/>
-        <input placeholder="Password" type="password" id="password"/>
-        <button id="login" style="width: 180px; height: 35px"> 
-            Login
-        </button>
+    <div style="display: flex; justify-content: center; align-items: center;  height: 100vh; flex-direction: column;">
+        <div style="display: flex; flex-direction: column; gap: 10px; ">
+            <h1> Login </h1>
+            <input placeholder="E-mail" id="email"/>
+            <input placeholder="Password" type="password" id="password"/>
+            <button id="login" style="height: 35px; width: 100%;"> 
+                Login
+            </button>
+        </div>
+
     </div>
 </body>
 </html>
