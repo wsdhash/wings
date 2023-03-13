@@ -12,7 +12,7 @@
         "CREATE TABLE IF NOT EXISTS balances (
             id SERIAL PRIMARY KEY,
             user_id VARCHAR(255) REFERENCES users(user_id), 
-            balance FLOAT DEFAULT 0)"]))
+            balance FLOAT DEFAULT 10)"]))
 
 (defn create-user-and-balance-if-not-exists
   [user_id] 
